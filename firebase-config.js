@@ -1,5 +1,5 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyCXxyZ9TXQod8H6U8pJyS7LXumuawXLpf4",
+  apiKey: "AIzaSyCXxyZ9TXQod8H6U8pJyS7LXUmuaWXLPf4",
   authDomain: "stacking-ammo.firebaseapp.com",
   projectId: "stacking-ammo",
   storageBucket: "stacking-ammo.firebasestorage.app",
