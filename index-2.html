@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stacking Ammo</title>
+<style>
+  :root{
+    --dark:#111827; --bg:#f7f8fa; --card:#ffffff;
+    --idiom-main:#2563eb; --idiom-light:#dbeafe;
+    --invest-main:#d97706; --invest-light:#fef3c7;
+    --gray:#6b7280;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:var(--bg);color:#1f2937;}
+  header{background:var(--dark);color:#fff;padding:24px 20px;text-align:center;}
+  header h1{margin:0;font-size:28px;letter-spacing:1px;}
+  header p{margin:6px 0 0;color:#9ca3af;font-size:13px;}
+  nav{display:flex;justify-content:center;gap:12px;background:#fff;padding:14px;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10;}
+  nav button{padding:10px 22px;border:none;border-radius:24px;cursor:pointer;font-size:14px;font-weight:bold;background:#f1f3f5;color:var(--gray);transition:.2s;}
+  nav button.active-idiom{background:var(--idiom-main);color:#fff;}
+  nav button.active-invest{background:var(--invest-main);color:#fff;}
+  main{max-width:800px;margin:0 auto;padding:20px 16px 60px;}
+  .about-card{background:var(--card);border-radius:14px;padding:22px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  .about-card h2{margin:0 0 10px;font-size:17px;color:var(--dark);}
+  .about-text{font-size:14px;line-height:1.6;white-space:pre-wrap;color:#374151;}
+  .about-textarea{width:100%;min-height:100px;padding:10px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;}
+  .about-actions{margin-top:10px;display:flex;gap:8px;}
+  section{display:none;}
+  section.visible{display:block;}
+  .section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .section-header .badge{font-size:12px;padding:4px 10px;border-radius:12px;color:#fff;font-weight:bold;}
+  #idiom .badge{background:var(--idiom-main);}
+  #invest .badge{background:var(--invest-main);}
+  .section-header h2{margin:0;font-size:20px;color:var(--dark);}
+  .post-form{background:var(--card);border-radius:14px;padding:20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.05);border-left:5px solid var(--border-color,#ccc);}
+  #idiom .post-form{border-left-color:var(--idiom-main);}
+  #invest .post-form{border-left-color:var(--invest-main);}
+  .post-form input[type=text]{width:100%;padding:10px;margin-bottom:10px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;}
+  .post-form textarea{width:100%;min-height:90px;padding:10px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;resize:vertical;}
+  .btn{padding:10px 20px;border:none;border-radius:8px;font-size:14px;cursor:pointer;color:#fff;font-weight:bold;margin-top:10px;}
+  #idiom .btn.primary{background:var(--idiom-main);}
+  #invest .btn.primary{background:var(--invest-main);}
+  .btn.secondary{background:#9ca3af;}
+  .btn.danger{background:#ef4444;}
+  .post{background:var(--card);border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.05);border-left:4px solid var(--border-color,#ccc);}
+  #idiom .post{border-left-color:var(--idiom-main);}
+  #invest .post{border-left-color:var(--invest-main);}
+  .post-title{font-size:16px;font-weight:bold;color:var(--dark);margin-bottom:4px;}
+  .post-date{font-size:12px;color:var(--gray);margin-bottom:10px;}
+  .post-body{font-size:14px;line-height:1.6;white-space:pre-wrap;color:#374151;}
+  .post-actions{margin-top:10px;display:flex;gap:8px;}
+  .post-actions button{font-size:12px;padding:6px 12px;border:none;border-radius:6px;cursor:pointer;background:#f1f3f5;color:var(--gray);}
+  .post-actions button:hover{background:#e5e7eb;}
+  .empty-msg{color:var(--gray);font-size:13px;text-align:center;padding:30px 0;}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎯 Stacking Ammo</h1>
+  <p>영어 공부 기록과 투자/매크로 인사이트를 쌓아가는 공간</p>
+</header>
+<nav>
+  <button id="navIdiom" class="active-idiom" onclick="switchTab('idiom')">📘 영어 숙어 공부</button>
+  <button id="navInvest" onclick="switchTab('invest')">📊 주식/매크로 인사이트</button>
+</nav>
+<main>
+  <div class="about-card">
+    <h2>About Stacking Ammo ✍️</h2>
+    <div id="aboutView">
+      <div class="about-text" id="aboutText">아직 소개글이 없습니다. '수정' 버튼을 눌러 작성해보세요.</div>
+      <div class="about-actions"><button class="btn secondary" onclick="editAbout()">수정</button></div>
+    </div>
+    <div id="aboutEdit" style="display:none;">
+      <textarea class="about-textarea" id="aboutInput" placeholder="이 사이트에 대한 소개를 자유롭게 작성해보세요."></textarea>
+      <div class="about-actions">
+        <button class="btn secondary" style="background:#374151;" onclick="saveAbout()">저장</button>
+        <button class="btn secondary" onclick="cancelAboutEdit()">취소</button>
+      </div>
+    </div>
+  </div>
+  <section id="idiom" class="visible">
+    <div class="section-header"><span class="badge">ENGLISH</span><h2>영어 숙어 공부 기록</h2></div>
+    <div class="post-form">
+      <input type="text" id="idiomTitle" placeholder="제목 (예: Break the ice)">
+      <textarea id="idiomBody" placeholder="뜻, 예문, 느낀 점 등을 자유롭게 적어보세요."></textarea>
+      <button class="btn primary" onclick="addPost('idiom')">게시하기</button>
+    </div>
+    <div id="idiomList"></div>
+  </section>
+  <section id="invest">
+    <div class="section-header"><span class="badge">INVESTING</span><h2>주식/매크로 인사이트 기록</h2></div>
+    <div class="post-form">
+      <input type="text" id="investTitle" placeholder="제목 (예: 10월 CPI 발표 리뷰)">
+      <textarea id="investBody" placeholder="포트폴리오 변동, 매크로 분석, 뉴스 요약 등을 자유롭게 적어보세요."></textarea>
+      <button class="btn primary" onclick="addPost('invest')">게시하기</button>
+    </div>
+    <div id="investList"></div>
+  </section>
+</main>
+<script>
+function switchTab(name){
+  document.getElementById('idiom').classList.remove('visible');
+  document.getElementById('invest').classList.remove('visible');
+  document.getElementById('navIdiom').classList.remove('active-idiom');
+  document.getElementById('navInvest').classList.remove('active-invest');
+  if(name === 'idiom'){
+    document.getElementById('idiom').classList.add('visible');
+    document.getElementById('navIdiom').classList.add('active-idiom');
+  } else {
+    document.getElementById('invest').classList.add('visible');
+    document.getElementById('navInvest').classList.add('active-invest');
+  }
+}
+function loadAbout(){
+  const text = localStorage.getItem('sa_about');
+  if(text) document.getElementById('aboutText').textContent = text;
+}
+function editAbout(){
+  const current = localStorage.getItem('sa_about') || '';
+  document.getElementById('aboutInput').value = current;
+  document.getElementById('aboutView').style.display = 'none';
+  document.getElementById('aboutEdit').style.display = 'block';
+}
+function saveAbout(){
+  const val = document.getElementById('aboutInput').value.trim();
+  localStorage.setItem('sa_about', val);
+  document.getElementById('aboutText').textContent = val || '아직 소개글이 없습니다. "수정" 버튼을 눌러 작성해보세요.';
+  cancelAboutEdit();
+}
+function cancelAboutEdit(){
+  document.getElementById('aboutView').style.display = 'block';
+  document.getElementById('aboutEdit').style.display = 'none';
+}
+function getPosts(type){ return JSON.parse(localStorage.getItem('sa_' + type + 'Posts') || '[]'); }
+function savePosts(type, posts){ localStorage.setItem('sa_' + type + 'Posts', JSON.stringify(posts)); }
+function addPost(type){
+  const titleEl = document.getElementById(type + 'Title');
+  const bodyEl = document.getElementById(type + 'Body');
+  const title = titleEl.value.trim(), body = bodyEl.value.trim();
+  if(!title || !body){ alert('제목과 내용을 모두 입력해주세요.'); return; }
+  const posts = getPosts(type);
+  posts.unshift({id:Date.now(), title, body, date:new Date().toLocaleString('ko-KR')});
+  savePosts(type, posts);
+  titleEl.value = ''; bodyEl.value = ''; renderPosts(type);
+}
+function deletePost(type, id){
+  if(!confirm('이 포스트를 삭제할까요?')) return;
+  savePosts(type, getPosts(type).filter(p => p.id !== id));
+  renderPosts(type);
+}
+function renderPosts(type){
+  const posts = getPosts(type), container = document.getElementById(type + 'List');
+  container.innerHTML = '';
+  if(posts.length === 0){ container.innerHTML = '<div class="empty-msg">아직 작성된 포스트가 없습니다.</div>'; return; }
+  posts.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'post';
+    div.innerHTML = `<div class="post-title">${escapeHtml(p.title)}</div><div class="post-date">${p.date}</div><div class="post-body">${escapeHtml(p.body)}</div><div class="post-actions"><button onclick="deletePost('${type}', ${p.id})">삭제</button></div>`;
+    container.appendChild(div);
+  });
+}
+function escapeHtml(str){ const div=document.createElement('div'); div.textContent=str; return div.innerHTML; }
+loadAbout();
+renderPosts('idiom');
+renderPosts('invest');
+</script>
+</body>
+</html>
