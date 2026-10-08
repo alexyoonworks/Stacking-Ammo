@@ -1,9 +1,136 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Stacking Ammo</title><meta name="description" content="Research, language & ideas worth keeping."><link rel="stylesheet" href="style.css"></head><body>
-<header class="nav wrap"><a class="mini-logo hidden" id="miniLogo" href="#">STACKING AMMO</a><nav class="navlinks"><button data-route="archive">ARCHIVE</button><button data-route="research">RESEARCH</button><button data-route="field">FIELD NOTES</button></nav><div class="navright"><button id="searchBtn">⌕</button><button id="accountBtn">◎</button></div></header>
-<main id="homeView"><section class="hero wrap"><div class="hero-copy"><h1 id="siteTitle">Stacking Ammo</h1><p class="dek" id="siteIntro">Research, language &amp; ideas worth keeping.</p><p class="tagline" id="tagline">Keep what matters. Stack what you learn.</p></div><div class="hero-art"><img src="editorial-artwork.png" alt="Editorial mountain artwork"></div></section><section class="wrap section"><div class="section-title"><span>FEATURED</span><button data-route="archive">VIEW ALL →</button></div><div id="featured" class="featured"></div></section><section class="wrap section"><div class="section-title"><span>RECENT POSTS</span><div class="filters"><button class="active" data-filter="all">ALL</button><button data-filter="research">RESEARCH</button><button data-filter="field">FIELD NOTES</button></div></div><div id="recent" class="recent"></div></section></main>
-<main id="archiveView" class="wrap page hidden"><button class="back" data-route="home">← HOME</button><div class="pagehead"><div><div class="eyebrow" id="pageEyebrow">ARCHIVE</div><h2 id="pageTitle">Archive</h2><p id="pageDesc">All posts, in one place.</p></div><input id="searchInput" placeholder="Search posts…"></div><div id="archivePosts"></div></main>
-<main id="articleView" class="wrap page hidden"><button class="back" data-route="home">← HOME</button><article class="article"><div class="eyebrow" id="articleMeta"></div><h2 id="articleTitle"></h2><p class="article-summary" id="articleSummary"></p><img id="articleImage" class="article-image hidden" alt=""><div id="articleBody" class="article-body"></div><div class="article-actions"><button id="reactBtn">♡ <span id="reactionCount">0</span></button><button id="copyBtn">COPY LINK</button><button id="editPostBtn" class="hidden">EDIT</button><button id="deletePostBtn" class="hidden">DELETE</button></div><section class="comments"><div class="section-title"><span>COMMENTS</span></div><div id="commentsList"></div><div id="commentComposer" class="comment-compose hidden"><textarea id="commentText" maxlength="1200" placeholder="Leave a comment…"></textarea><button id="postComment" class="solid">POST COMMENT</button></div><p id="commentLoginHint" class="muted">Sign in to leave a comment or reaction.</p></section></article></main>
-<div class="modal" id="authModal"><div class="modalbox"><button class="x" data-close="authModal">×</button><div class="eyebrow">ACCOUNT</div><h2 id="authTitle">Sign in</h2><input id="displayName" class="hidden" placeholder="Display name"><input id="email" type="email" placeholder="Email"><input id="password" type="password" placeholder="Password"><button class="solid wide" id="authSubmit">SIGN IN</button><button class="textbtn" id="authSwitch">New here? Create an account</button><p id="authStatus" class="muted"></p></div></div>
-<div class="modal" id="adminModal"><div class="modalbox adminbox"><button class="x" data-close="adminModal">×</button><div class="eyebrow">EDITOR</div><h2>Publish</h2><input id="editId" type="hidden"><label>SECTION</label><select id="postCategory"><option value="research">Research</option><option value="field">Field Notes</option></select><label>TITLE</label><input id="postTitle"><label>SUMMARY</label><textarea id="postSummary" class="short"></textarea><label>ARTICLE</label><textarea id="postBody" class="tall"></textarea><label>IMAGE URL (optional)</label><input id="postImage" placeholder="https://…"><label><input id="postFeatured" type="checkbox"> Featured on home</label><button id="savePost" class="solid wide">SAVE POST</button><button id="clearPost" class="textbtn">CLEAR</button><hr><div class="eyebrow">SITE COPY</div><label>TITLE</label><input id="setTitle"><label>INTRO</label><input id="setIntro"><label>TAGLINE</label><input id="setTagline"><button id="saveSettings" class="solid wide">SAVE SITE COPY</button><button id="exportBackup" class="textbtn">EXPORT BACKUP</button></div></div>
-<div id="adminBar" class="adminbar hidden"><button id="newPost">＋ WRITE</button><button id="settingsBtn">SITE SETTINGS</button><span>ADMIN</span></div><footer class="wrap"><span>STACKING AMMO</span><span id="footerYear"></span></footer>
-<script type="module" src="app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0d1112">
+  <title>Stacking Ammo</title>
+  <meta name="description" content="Research, language & ideas worth keeping">
+  <link rel="stylesheet" href="./style.css?v=4.0.0">
+</head>
+<body>
+<header class="topbar">
+  <button id="miniLogo" class="mini-logo hidden" data-route="home">STACKING AMMO</button>
+  <nav>
+    <button data-route="archive">ARCHIVE</button>
+    <button data-route="research">RESEARCH</button>
+    <button data-route="field">FIELD NOTES</button>
+  </nav>
+  <div class="top-actions">
+    <button id="searchBtn" aria-label="Search">⌕</button>
+    <button id="accountBtn" aria-label="Account">◎</button>
+  </div>
+</header>
+
+<div id="adminBar" class="admin-bar hidden">
+  <span>ADMIN</span>
+  <button id="newPost">NEW POST</button>
+  <button id="settingsBtn">SITE SETTINGS</button>
+  <button id="exportBackup">EXPORT BACKUP</button>
+</div>
+
+<main id="homeView">
+  <section class="hero">
+    <img src="./hero-mountain.jpg" alt="Mountain landscape" class="hero-image">
+    <div class="hero-shade"></div>
+    <div class="hero-copy">
+      <h1 id="siteTitle">Stacking Ammo</h1>
+      <p id="siteIntro" class="intro">Research, language &amp; ideas worth keeping</p>
+      <p id="tagline" class="tagline">Keep what matters Stack what you learn</p>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head"><span>FEATURED</span><button data-route="archive">VIEW ALL →</button></div>
+    <div id="featured" class="featured-grid"></div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <span>RECENT POSTS</span>
+      <div class="filters">
+        <button class="active" data-filter="all">ALL</button>
+        <button data-filter="research">RESEARCH</button>
+        <button data-filter="field">FIELD NOTES</button>
+      </div>
+    </div>
+    <div id="recent" class="recent-grid"></div>
+  </section>
+</main>
+
+<main id="archiveView" class="hidden wrap page">
+  <div class="page-heading">
+    <span id="pageEyebrow" class="eyebrow">ARCHIVE</span>
+    <h2 id="pageTitle">Archive</h2>
+    <p id="pageDesc">All posts in one place</p>
+    <input id="searchInput" type="search" placeholder="Search the archive">
+  </div>
+  <div id="archivePosts" class="archive-list"></div>
+</main>
+
+<main id="articleView" class="hidden">
+  <article class="article wrap">
+    <div id="articleMeta" class="eyebrow"></div>
+    <h1 id="articleTitle"></h1>
+    <p id="articleSummary" class="article-summary"></p>
+    <img id="articleImage" class="article-image hidden" alt="">
+    <div id="articleBody" class="article-body"></div>
+    <div class="article-actions">
+      <button id="reactBtn">◉ <span id="reactionCount">0</span></button>
+      <button id="copyBtn">COPY LINK</button>
+      <button id="editPostBtn" class="hidden">EDIT</button>
+      <button id="deletePostBtn" class="hidden danger">DELETE</button>
+    </div>
+    <section class="comments">
+      <div class="section-head"><span>COMMENTS</span></div>
+      <p id="commentLoginHint" class="muted">Sign in to leave a comment</p>
+      <div id="commentComposer" class="comment-composer hidden">
+        <textarea id="commentText" maxlength="1200" placeholder="Write a comment"></textarea>
+        <button id="postComment">POST COMMENT</button>
+      </div>
+      <div id="commentsList"></div>
+    </section>
+  </article>
+</main>
+
+<footer class="wrap footer">STACKING AMMO <span id="footerYear"></span></footer>
+
+<div id="authModal" class="modal">
+  <div class="modal-card auth-card">
+    <button class="close" data-close="authModal">×</button>
+    <span class="eyebrow">ACCOUNT</span>
+    <h2 id="authTitle">Sign in</h2>
+    <input id="displayName" class="hidden" placeholder="Display name">
+    <input id="email" type="email" autocomplete="email" placeholder="Email">
+    <input id="password" type="password" autocomplete="current-password" placeholder="Password">
+    <button id="authSubmit" class="primary">SIGN IN</button>
+    <button id="authSwitch" class="text-btn">New here? Create an account</button>
+    <p id="authStatus" class="status"></p>
+  </div>
+</div>
+
+<div id="adminModal" class="modal">
+  <div class="modal-card admin-card">
+    <button class="close" data-close="adminModal">×</button>
+    <span class="eyebrow">EDITOR</span>
+    <h2>Publish</h2>
+    <input id="editId" type="hidden">
+    <label>Category<select id="postCategory"><option value="research">Research</option><option value="field">Field Notes</option></select></label>
+    <label>Title<input id="postTitle"></label>
+    <label>Summary<textarea id="postSummary"></textarea></label>
+    <label>Article<textarea id="postBody" class="body-editor"></textarea></label>
+    <label>Image URL (optional)<input id="postImage" placeholder="https://..."></label>
+    <label class="check"><input id="postFeatured" type="checkbox"> Featured post</label>
+    <div class="button-row"><button id="savePost" class="primary">SAVE POST</button><button id="clearPost">CLEAR</button></div>
+    <hr>
+    <span class="eyebrow">SITE COPY</span>
+    <label>Title<input id="setTitle" value="Stacking Ammo"></label>
+    <label>Intro<input id="setIntro" value="Research, language & ideas worth keeping"></label>
+    <label>Tagline<input id="setTagline" value="Keep what matters Stack what you learn"></label>
+    <button id="saveSettings" class="primary">SAVE SITE COPY</button>
+  </div>
+</div>
+
+<script type="module" src="./app.js?v=4.0.0"></script>
+</body>
+</html>
