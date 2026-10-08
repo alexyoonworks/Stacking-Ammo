@@ -2,135 +2,159 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#0d1112">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101516">
+  <meta name="description" content="Research, language &amp; ideas worth keeping">
   <title>Stacking Ammo</title>
-  <meta name="description" content="Research, language & ideas worth keeping">
-  <link rel="stylesheet" href="./style.css?v=4.0.0">
+  <link rel="stylesheet" href="./style.css?v=5.0.0">
 </head>
 <body>
-<header class="topbar">
-  <button id="miniLogo" class="mini-logo hidden" data-route="home">STACKING AMMO</button>
-  <nav>
-    <button data-route="archive">ARCHIVE</button>
-    <button data-route="research">RESEARCH</button>
-    <button data-route="field">FIELD NOTES</button>
-  </nav>
-  <div class="top-actions">
-    <button id="searchBtn" aria-label="Search">⌕</button>
-    <button id="accountBtn" aria-label="Account">◎</button>
-  </div>
-</header>
-
-<div id="adminBar" class="admin-bar hidden">
-  <span>ADMIN</span>
-  <button id="newPost">NEW POST</button>
-  <button id="settingsBtn">SITE SETTINGS</button>
-  <button id="exportBackup">EXPORT BACKUP</button>
-</div>
-
-<main id="homeView">
-  <section class="hero">
-    <img src="./hero-mountain.jpg" alt="Mountain landscape" class="hero-image">
-    <div class="hero-shade"></div>
-    <div class="hero-copy">
-      <h1 id="siteTitle">Stacking Ammo</h1>
-      <p id="siteIntro" class="intro">Research, language &amp; ideas worth keeping</p>
-      <p id="tagline" class="tagline">Keep what matters Stack what you learn</p>
-    </div>
-  </section>
-
-  <section class="section wrap">
-    <div class="section-head"><span>FEATURED</span><button data-route="archive">VIEW ALL →</button></div>
-    <div id="featured" class="featured-grid"></div>
-  </section>
-
-  <section class="section wrap">
-    <div class="section-head">
-      <span>RECENT POSTS</span>
-      <div class="filters">
-        <button class="active" data-filter="all">ALL</button>
-        <button data-filter="research">RESEARCH</button>
-        <button data-filter="field">FIELD NOTES</button>
+  <header class="site-header">
+    <div class="header-inner">
+      <button type="button" id="smallLogo" class="small-logo hidden" data-route="home" aria-label="Stacking Ammo home">STACKING AMMO</button>
+      <nav class="primary-nav" aria-label="Main navigation">
+        <button type="button" data-route="archive">ARCHIVE</button>
+        <button type="button" data-route="research">RESEARCH</button>
+        <button type="button" data-route="field">FIELD NOTES</button>
+      </nav>
+      <div class="header-tools">
+        <button type="button" id="searchButton" class="icon-button" aria-label="Search archive" title="Search archive">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.5"/><path d="m16 16 5 5"/></svg>
+        </button>
+        <button type="button" id="accountButton" class="icon-button" aria-label="Sign in" title="Account">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.3"/><path d="M5 20v-2a7 7 0 0 1 14 0v2"/></svg>
+        </button>
       </div>
     </div>
-    <div id="recent" class="recent-grid"></div>
-  </section>
-</main>
+  </header>
 
-<main id="archiveView" class="hidden wrap page">
-  <div class="page-heading">
-    <span id="pageEyebrow" class="eyebrow">ARCHIVE</span>
-    <h2 id="pageTitle">Archive</h2>
-    <p id="pageDesc">All posts in one place</p>
-    <input id="searchInput" type="search" placeholder="Search the archive">
+  <div id="adminBar" class="admin-bar hidden" aria-label="Admin tools">
+    <span>EDITOR ACCESS</span>
+    <button type="button" id="newPostButton">+ NEW POST</button>
+    <button type="button" id="siteSettingsButton">SITE SETTINGS</button>
+    <button type="button" id="backupButton">EXPORT BACKUP</button>
   </div>
-  <div id="archivePosts" class="archive-list"></div>
-</main>
 
-<main id="articleView" class="hidden">
-  <article class="article wrap">
-    <div id="articleMeta" class="eyebrow"></div>
-    <h1 id="articleTitle"></h1>
-    <p id="articleSummary" class="article-summary"></p>
-    <img id="articleImage" class="article-image hidden" alt="">
-    <div id="articleBody" class="article-body"></div>
-    <div class="article-actions">
-      <button id="reactBtn">◉ <span id="reactionCount">0</span></button>
-      <button id="copyBtn">COPY LINK</button>
-      <button id="editPostBtn" class="hidden">EDIT</button>
-      <button id="deletePostBtn" class="hidden danger">DELETE</button>
-    </div>
-    <section class="comments">
-      <div class="section-head"><span>COMMENTS</span></div>
-      <p id="commentLoginHint" class="muted">Sign in to leave a comment</p>
-      <div id="commentComposer" class="comment-composer hidden">
-        <textarea id="commentText" maxlength="1200" placeholder="Write a comment"></textarea>
-        <button id="postComment">POST COMMENT</button>
-      </div>
-      <div id="commentsList"></div>
+  <div id="dataError" class="site-warning hidden" role="status"></div>
+
+  <main id="homeView" class="view">
+    <section class="hero" aria-label="Stacking Ammo — Research, language and ideas worth keeping">
+      <h1 class="visually-hidden">Stacking Ammo</h1>
+      <!-- IMPORTANT: This approved artwork ALREADY contains the title and both taglines.
+           Never layer duplicate text, a gradient, or a cropped mockup over it. -->
+      <img class="hero-art" src="./stacking-ammo-hero-v5.png" alt="Stacking Ammo — Research, language &amp; ideas worth keeping — Keep what matters Stack what you learn. Snowy mountains in dark clouds." fetchpriority="high">
     </section>
-  </article>
-</main>
 
-<footer class="wrap footer">STACKING AMMO <span id="footerYear"></span></footer>
+    <section class="content-section page-width" aria-labelledby="featuredHeading">
+      <div class="section-heading"><h2 id="featuredHeading">FEATURED</h2><button type="button" data-route="archive">VIEW ALL <span aria-hidden="true">↗</span></button></div>
+      <div id="featuredPosts" class="featured-grid"></div>
+    </section>
 
-<div id="authModal" class="modal">
-  <div class="modal-card auth-card">
-    <button class="close" data-close="authModal">×</button>
-    <span class="eyebrow">ACCOUNT</span>
-    <h2 id="authTitle">Sign in</h2>
-    <input id="displayName" class="hidden" placeholder="Display name">
-    <input id="email" type="email" autocomplete="email" placeholder="Email">
-    <input id="password" type="password" autocomplete="current-password" placeholder="Password">
-    <button id="authSubmit" class="primary">SIGN IN</button>
-    <button id="authSwitch" class="text-btn">New here? Create an account</button>
-    <p id="authStatus" class="status"></p>
+    <section class="content-section page-width" aria-labelledby="recentHeading">
+      <div class="section-heading section-heading-filters"><h2 id="recentHeading">RECENTLY ADDED</h2>
+        <div class="filter-nav" role="group" aria-label="Recent post category">
+          <button type="button" data-filter="all" class="selected">ALL</button>
+          <button type="button" data-filter="research">RESEARCH</button>
+          <button type="button" data-filter="field">FIELD NOTES</button>
+        </div>
+      </div>
+      <div id="recentPosts" class="recent-grid"></div>
+    </section>
+  </main>
+
+  <main id="listingView" class="view hidden page-width listing-view">
+    <section class="listing-intro">
+      <div class="eyebrow" id="listingEyebrow">COLLECTION</div>
+      <h1 id="listingTitle">Archive</h1>
+      <p id="listingDescription">All posts, collected over time</p>
+      <label for="archiveSearch" class="visually-hidden">Search posts</label>
+      <input id="archiveSearch" type="search" placeholder="Search titles, notes, and ideas" autocomplete="off">
+    </section>
+    <div id="archiveResults" class="archive-results" aria-live="polite"></div>
+  </main>
+
+  <main id="articleView" class="view hidden">
+    <article class="article page-width" id="articleContent">
+      <div id="articleMeta" class="eyebrow"></div>
+      <h1 id="articleTitle"></h1>
+      <p id="articleSummary" class="article-lead"></p>
+      <img id="articleCover" class="article-cover hidden" alt="">
+      <div id="articleBody" class="article-body"></div>
+      <div class="article-tools">
+        <button type="button" id="likeButton" class="outline-button" aria-label="Appreciate this article">♡ <span id="likeCount">0</span></button>
+        <button type="button" id="shareButton" class="outline-button">COPY LINK</button>
+        <button type="button" id="editButton" class="outline-button hidden">EDIT ARTICLE</button>
+        <button type="button" id="deleteButton" class="outline-button danger hidden">DELETE ARTICLE</button>
+      </div>
+    </article>
+    <section class="article-comments page-width" aria-labelledby="commentsHeading">
+      <div class="section-heading"><h2 id="commentsHeading">COMMENTS</h2></div>
+      <p id="commentSignIn" class="muted">Sign in to leave a comment</p>
+      <form id="commentForm" class="hidden">
+        <label for="commentText" class="visually-hidden">Your comment</label>
+        <textarea id="commentText" maxlength="1200" rows="4" placeholder="Add a thoughtful comment" required></textarea>
+        <div class="form-bottom"><span>Maximum 1,200 characters</span><button type="submit" class="solid-button compact">POST COMMENT</button></div>
+      </form>
+      <div id="commentList" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer page-width">
+    <span>STACKING AMMO</span>
+    <span id="footerNote">A living archive of research and ideas</span>
+    <span id="copyright"></span>
+  </footer>
+
+  <div id="authDialog" class="dialog-backdrop hidden" role="presentation">
+    <section class="dialog auth-dialog" role="dialog" aria-modal="true" aria-labelledby="authHeading">
+      <button type="button" class="dialog-close" data-dismiss="authDialog" aria-label="Close">×</button>
+      <div class="eyebrow">ACCOUNT</div><h2 id="authHeading">Sign in</h2>
+      <form id="authForm">
+        <label for="authName" id="authNameLabel" class="hidden">Display name<input id="authName" type="text" maxlength="48" autocomplete="nickname"></label>
+        <label for="authEmail">Email<input id="authEmail" type="email" autocomplete="email" required></label>
+        <label for="authPassword">Password<input id="authPassword" type="password" minlength="6" autocomplete="current-password" required></label>
+        <button type="submit" id="authSubmit" class="solid-button">SIGN IN</button>
+      </form>
+      <button type="button" id="authToggle" class="quiet-button">New here? Create an account</button>
+      <p id="authError" class="form-message" role="alert"></p>
+    </section>
   </div>
-</div>
 
-<div id="adminModal" class="modal">
-  <div class="modal-card admin-card">
-    <button class="close" data-close="adminModal">×</button>
-    <span class="eyebrow">EDITOR</span>
-    <h2>Publish</h2>
-    <input id="editId" type="hidden">
-    <label>Category<select id="postCategory"><option value="research">Research</option><option value="field">Field Notes</option></select></label>
-    <label>Title<input id="postTitle"></label>
-    <label>Summary<textarea id="postSummary"></textarea></label>
-    <label>Article<textarea id="postBody" class="body-editor"></textarea></label>
-    <label>Image URL (optional)<input id="postImage" placeholder="https://..."></label>
-    <label class="check"><input id="postFeatured" type="checkbox"> Featured post</label>
-    <div class="button-row"><button id="savePost" class="primary">SAVE POST</button><button id="clearPost">CLEAR</button></div>
-    <hr>
-    <span class="eyebrow">SITE COPY</span>
-    <label>Title<input id="setTitle" value="Stacking Ammo"></label>
-    <label>Intro<input id="setIntro" value="Research, language & ideas worth keeping"></label>
-    <label>Tagline<input id="setTagline" value="Keep what matters Stack what you learn"></label>
-    <button id="saveSettings" class="primary">SAVE SITE COPY</button>
+  <div id="editorDialog" class="dialog-backdrop hidden" role="presentation">
+    <section class="dialog editor-dialog" role="dialog" aria-modal="true" aria-labelledby="editorHeading">
+      <button type="button" class="dialog-close" data-dismiss="editorDialog" aria-label="Close">×</button>
+      <div class="eyebrow">ADMIN / EDITOR</div><h2 id="editorHeading">New article</h2>
+      <form id="editorForm">
+        <input id="editorId" type="hidden">
+        <label for="editorCategory">CATEGORY<select id="editorCategory"><option value="research">Research</option><option value="field">Field Notes</option></select></label>
+        <label for="editorTitle">TITLE<input id="editorTitle" type="text" maxlength="180" required></label>
+        <label for="editorSummary">SUMMARY<textarea id="editorSummary" maxlength="500" rows="3" placeholder="A short introduction for the archive"></textarea></label>
+        <label for="editorBody">ARTICLE<textarea id="editorBody" rows="14" placeholder="Write your research or field notes here. Blank lines create paragraphs." required></textarea></label>
+        <label for="editorImage">COVER IMAGE URL (OPTIONAL)<input id="editorImage" type="url" placeholder="https://example.com/image.jpg"></label>
+        <label class="inline-check"><input id="editorFeatured" type="checkbox"> Feature this post on the homepage</label>
+        <button type="submit" id="editorSave" class="solid-button">PUBLISH ARTICLE</button>
+        <p id="editorError" class="form-message" role="alert"></p>
+      </form>
+    </section>
   </div>
-</div>
 
-<script type="module" src="./app.js?v=4.0.0"></script>
+  <div id="settingsDialog" class="dialog-backdrop hidden" role="presentation">
+    <section class="dialog settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settingsHeading">
+      <button type="button" class="dialog-close" data-dismiss="settingsDialog" aria-label="Close">×</button>
+      <div class="eyebrow">ADMIN / SITE SETTINGS</div><h2 id="settingsHeading">Site details</h2>
+      <p class="muted">The homepage hero artwork and its lettering are fixed as approved. You can edit descriptions elsewhere on the site.</p>
+      <form id="settingsForm">
+        <label for="settingsArchive">ARCHIVE DESCRIPTION<input id="settingsArchive"></label>
+        <label for="settingsResearch">RESEARCH DESCRIPTION<input id="settingsResearch"></label>
+        <label for="settingsField">FIELD NOTES DESCRIPTION<input id="settingsField"></label>
+        <label for="settingsFooter">FOOTER NOTE<input id="settingsFooter"></label>
+        <button type="submit" id="settingsSave" class="solid-button">SAVE SETTINGS</button>
+        <p id="settingsError" class="form-message" role="alert"></p>
+      </form>
+    </section>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+  <script type="module" src="./app.js?v=5.0.0"></script>
 </body>
 </html>
