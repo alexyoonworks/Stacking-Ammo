@@ -97,7 +97,21 @@ function friendlyError(err) {
 
 function coverHtml(p, klass = 'card-cover') {
   const url = safeImageUrl(p.image);
-  if (url) return `<img class="${klass}" src="${escapeHtml(url)}" loading="lazy" alt="Cover image for ${escapeHtml(p.title)}">`;
+
+  if (url) {
+    const x = Math.max(0, Math.min(100, Number(p.thumbnailX ?? 50)));
+    const y = Math.max(0, Math.min(100, Number(p.thumbnailY ?? 50)));
+    const zoom = Math.max(100, Math.min(200, Number(p.thumbnailZoom ?? 100)));
+
+    return `<img
+      class="${klass}"
+      src="${escapeHtml(url)}"
+      loading="lazy"
+      alt="Cover image for ${escapeHtml(p.title)}"
+      style="object-position:${x}% ${y}%; transform:scale(${zoom / 100});"
+    >`;
+  }
+
   return `<div class="${klass} no-image" aria-hidden="true"></div>`;
 }
 
