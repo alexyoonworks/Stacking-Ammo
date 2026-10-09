@@ -541,7 +541,100 @@ $('backupButton').addEventListener('click',async()=>{
   } catch(err) { showToast(friendlyError(err)); }
   finally { button.disabled=false; }
 });
+/* =====================================
+   STACKING AMMO — THUMBNAIL CONTROLS
+   ===================================== */
 
+const thumbPreview = $('thumbnailPreview');
+const thumbImage = $('thumbnailPreviewImage');
+const thumbZoom = $('thumbnailZoom');
+const thumbX = $('thumbnailX');
+const thumbY = $('thumbnailY');
+
+function clampThumbnail(value, min, max) {
+  return Math.max(min, Math.min(max, Number(value) || 0));
+}
+
+function updateThumbnailPreview() {
+  const url = safeImageUrl($('editorImage').value.trim());
+
+  thumbImage.style.display = url ? 'block' : 'none';
+
+  if (url && thumbImage.src !== url) {
+    thumbImage.src = url;
+  }
+
+  const zoom = clampThumbnail(thumbZoom.value, 100, 200);
+  const x = clampThumbnail(thumbX.value, 0, 100);
+  const y = clampThumbnail(thumbY.value, 0, 100);
+
+  thumbImage.style.objectPosition = `${x}% ${y}%`;
+  thumbImage.style.transformOrigin = `${x}% ${y}%`;
+  thumbImage.style.transform = `scale(${zoom / 100})`;
+
+  $('thumbnailZoomValue').textContent = `${zoom}%`;
+  $('thumbnailXValue').textContent = `${x}%`;
+  $('thumbnailYValue').textContent = `${y}%`;
+}
+
+[thumbZoom, thumbX, thumbY].forEach(control => {
+  control.addEventListener('input', updateThumbnailPreview);
+});
+
+$('editorImage').addEventListener(
+  'input',
+  updateThumbnailPreview
+);
+
+$('thumbnailReset').addEventListener('click', () => {
+  thumbZoom.value = 100;
+  thumbX.value = 50;
+  thumbY.value = 50;
+  updateThumbnailPreview();
+});
+
+let draggingThumbnail = false;
+let dragStartX = 0;
+let dragStartY = 0;
+let dragInitialX = 50;
+let dragInitialY = 50;
+
+thumbPreview.addEventListener('pointerdown', event => {
+  if (!safeImageUrl($('editorImage').value.trim())) return;
+
+  draggingThumbnail = true;
+  dragStartX = event.clientX;
+  dragStartY = event.clientY;
+
+  dragInitialX = Number(thumbX.value);
+  dragInitialY = Number(thumbY.value);
+
+  thumbPreview.setPointerCapture(event.pointerId);
+});
+
+thumbPreview.addEventListener('pointermove', event => {
+  if (!draggingThumbnail) return;
+
+  const rect = thumbPreview.getBoundingClientRect();
+
+  const dx = (event.clientX - dragStartX) / rect.width * 100;
+  const dy = (event.clientY - dragStartY) / rect.height * 100;
+
+  thumbX.value = clampThumbnail(dragInitialX - dx, 0, 100);
+  thumbY.value = clampThumbnail(dragInitialY - dy, 0, 100);
+
+  updateThumbnailPreview();
+});
+
+function stopThumbnailDrag() {
+  draggingThumbnail = false;
+}
+
+thumbPreview.addEventListener('pointerup', stopThumbnailDrag);
+thumbPreview.addEventListener('pointercancel', stopThumbnailDrag);
+thumbPreview.addEventListener('lostpointercapture', stopThumbnailDrag);
+
+updateThumbnailPreview();
 $('copyright').textContent='© '+new Date().getFullYear();
 renderHome();
 renderRoute();
