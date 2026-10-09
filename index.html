@@ -132,6 +132,74 @@
         <label for="editorSummary">SUMMARY<textarea id="editorSummary" maxlength="500" rows="3" placeholder="A short introduction for the archive"></textarea></label>
         <label for="editorBody">ARTICLE<textarea id="editorBody" rows="14" placeholder="Write your research or field notes here. Blank lines create paragraphs." required></textarea></label>
         <label for="editorImage">COVER IMAGE URL (OPTIONAL)<input id="editorImage" type="url" placeholder="https://example.com/image.jpg"></label>
+        <!-- THUMBNAIL EDITOR -->
+<div class="thumbnail-editor" id="thumbnailEditor">
+
+  <div class="thumbnail-editor-title">
+    ADJUST THUMBNAIL
+  </div>
+
+  <div class="thumbnail-preview" id="thumbnailPreview">
+    <img
+      id="thumbnailPreviewImage"
+      alt="Thumbnail preview"
+      draggable="false"
+      style="display:none;"
+    >
+  </div>
+
+  <div class="thumbnail-control">
+    <label for="thumbnailZoom">
+      ZOOM
+      <span id="thumbnailZoomValue">100%</span>
+    </label>
+    <input
+      type="range"
+      id="thumbnailZoom"
+      min="100"
+      max="200"
+      value="100"
+    >
+  </div>
+
+  <div class="thumbnail-control">
+    <label for="thumbnailX">
+      HORIZONTAL POSITION
+      <span id="thumbnailXValue">50%</span>
+    </label>
+    <input
+      type="range"
+      id="thumbnailX"
+      min="0"
+      max="100"
+      value="50"
+    >
+  </div>
+
+  <div class="thumbnail-control">
+    <label for="thumbnailY">
+      VERTICAL POSITION
+      <span id="thumbnailYValue">50%</span>
+    </label>
+    <input
+      type="range"
+      id="thumbnailY"
+      min="0"
+      max="100"
+      value="50"
+    >
+  </div>
+
+  <button
+    type="button"
+    class="thumbnail-reset"
+    id="thumbnailReset"
+  >
+    RESET POSITION
+  </button>
+
+</div>
+<!-- END THUMBNAIL EDITOR -->
         <label class="inline-check"><input id="editorFeatured" type="checkbox"> Feature this post on the homepage</label>
         <button type="submit" id="editorSave" class="solid-button">PUBLISH ARTICLE</button>
         <p id="editorError" class="form-message" role="alert"></p>
