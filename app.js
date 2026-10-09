@@ -445,6 +445,12 @@ function openEditor(post=null) {
   $('editorBody').value=post?.body || '';
   $('editorImage').value=post?.image || '';
   $('editorFeatured').checked=!!post?.featured;
+    // Load saved thumbnail settings
+  $('thumbnailZoom').value = post?.thumbnailZoom ?? 100;
+  $('thumbnailX').value = post?.thumbnailX ?? 50;
+  $('thumbnailY').value = post?.thumbnailY ?? 50;
+
+  updateThumbnailPreview();
   $('editorHeading').textContent=post?'Edit article':'New article';
   $('editorSave').textContent=post?'SAVE CHANGES':'PUBLISH ARTICLE';
   openDialog('editorDialog');
@@ -460,11 +466,18 @@ $('editorForm').addEventListener('submit',async e=>{
   if (!title || !body) return;
   const image=$('editorImage').value.trim();
   if (image && !safeImageUrl(image)) { $('editorError').textContent='Please use a valid http or https image URL'; return; }
-  const record={
-    title,body,image,
-    summary:$('editorSummary').value.trim(),
-    category:$('editorCategory').value,
-    featured:$('editorFeatured').checked
+    const record = {
+    title,
+    body,
+    image,
+    summary: $('editorSummary').value.trim(),
+    category: $('editorCategory').value,
+    featured: $('editorFeatured').checked,
+
+    // Thumbnail settings
+    thumbnailZoom: Number($('thumbnailZoom').value),
+    thumbnailX: Number($('thumbnailX').value),
+    thumbnailY: Number($('thumbnailY').value)
   };
   const save=$('editorSave'); save.disabled=true;
   $('editorError').textContent='';
