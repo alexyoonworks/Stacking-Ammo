@@ -229,13 +229,9 @@ function renderArticle(id) {
   $('articleCover').classList.toggle('hidden', !cover);
   if (cover) $('articleCover').src = cover;
   const body = $('articleBody');
-  body.replaceChildren();
-  for (const paragraph of String(post.body || '').split(/\n\s*\n/)) {
-    if (!paragraph.trim()) continue;
-    const el = document.createElement('p');
-    el.textContent = paragraph.trim();
-    body.append(el);
-  }
+ 
+  renderArticleWithImages(body, post.body);
+
   $('likeCount').textContent = String(Math.max(0, Number(post.reactionCount) || 0));
   $('editButton').classList.toggle('hidden', !admin());
   $('deleteButton').classList.toggle('hidden', !admin());
@@ -651,3 +647,85 @@ updateThumbnailPreview();
 $('copyright').textContent='© '+new Date().getFullYear();
 renderHome();
 renderRoute();
+
+/* =====================================
+   STACKING AMMO — ARTICLE IMAGE INSERT
+   ===================================== */
+
+$('insertImageUrlButton').addEventListener('click', () => {
+  const editor = $('editorBody');
+
+  const url = prompt('Enter the image URL:');
+
+  if (url === null) return;
+
+  const imageUrl = safeImageUrl(url.trim());
+
+  if (!imageUrl) {
+    showToast('Please enter a valid image URL.');
+    return;
+  }
+
+  const caption = prompt('Image caption (optional):') || '';
+
+  const safeCaption = caption
+    .replace(/[\r\n[\]]/g, ' ')
+    .trim();
+
+  const imageCode = `\n\n![${safeCaption}](${imageUrl})\n\n`;
+
+  const start = editor.selectionStart;
+  const end = editor.selectionEnd;
+
+  editor.setRangeText(imageCode, start, end, 'end');
+  editor.focus();
+
+  showToast('Image inserted into article.');
+});
+
+/* =====================================
+   RENDER ARTICLE IMAGES
+   ===================================== */
+
+function renderArticleWithImages(bodyElement, content) {
+  bodyElement.replaceChildren();
+
+  const paragraphs = String(content || '').split(/\n\s*\n/);
+
+  for (const paragraph of paragraphs) {
+    const text = paragraph.trim();
+
+    if (!text) continue;
+
+    const imageMatch = text.match(/^!\[([^\]]*)\]\((https?:\/\/[^\s)]+)\)$/);
+
+    if (imageMatch) {
+      const imageUrl = safeImageUrl(imageMatch[2]);
+
+      if (!imageUrl) continue;
+
+      const figure = document.createElement('figure');
+      figure.className = 'article-inline-image';
+
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      img.alt = imageMatch[1] || 'Article image';
+      img.loading = 'lazy';
+
+      figure.appendChild(img);
+
+      if (imageMatch[1]) {
+        const caption = document.createElement('figcaption');
+        caption.textContent = imageMatch[1];
+        figure.appendChild(caption);
+      }
+
+      bodyElement.appendChild(figure);
+    } else {
+      const p = document.createElement('p');
+      p.textContent = text;
+      bodyElement.appendChild(p);
+    }
+  }
+}
+
