@@ -130,7 +130,32 @@
         <label for="editorCategory">CATEGORY<select id="editorCategory"><option value="research">Research</option><option value="field">Field Notes</option></select></label>
         <label for="editorTitle">TITLE<input id="editorTitle" type="text" maxlength="180" required></label>
         <label for="editorSummary">SUMMARY<textarea id="editorSummary" maxlength="500" rows="3" placeholder="A short introduction for the archive"></textarea></label>
-        <label for="editorBody">ARTICLE<textarea id="editorBody" rows="14" placeholder="Write your research or field notes here. Blank lines create paragraphs." required></textarea></label>
+      
+<!-- ARTICLE EDITOR -->
+<div class="article-editor-section">
+
+  <label for="editorBody">ARTICLE</label>
+
+  <div class="article-editor-toolbar">
+    <button type="button" id="insertImageUrlButton">
+      + INSERT IMAGE URL
+    </button>
+  </div>
+
+  <textarea
+    id="editorBody"
+    rows="14"
+    placeholder="Write your research or field notes here. Place the cursor where you want to insert an image."
+    required
+  ></textarea>
+
+  <p class="muted">
+    Insert images between paragraphs using an image URL.
+  </p>
+
+</div>
+<!-- END ARTICLE EDITOR -->
+
         <label for="editorImage">COVER IMAGE URL (OPTIONAL)<input id="editorImage" type="url" placeholder="https://example.com/image.jpg"></label>
         <!-- THUMBNAIL EDITOR -->
 <div class="thumbnail-editor" id="thumbnailEditor">
